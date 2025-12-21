@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import chatRouter from './routes/chat.js';
 
 const app = express();
 
@@ -9,5 +10,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.json({ message: 'Computer Says No Engine API' });
 });
+
+app.use('/api/chat', chatRouter);
 
 export { app };
