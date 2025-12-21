@@ -1,0 +1,8 @@
+{
+  "track_id": "fix_server_crash_20251221",
+  "type": "bug",
+  "status": "new",
+  "created_at": "2025-12-21T16:53:00Z",
+  "updated_at": "2025-12-21T16:53:00Z",
+  "description": "Fix Prisma Client Import SyntaxError & Verify API"
+}
