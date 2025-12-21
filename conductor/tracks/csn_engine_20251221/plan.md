@@ -1,7 +1,7 @@
 # Development Plan: Build the core "Computer Says No" Engine
 
 ## Phase 1: Environment Setup & Skeleton (Greenfield)
-- [ ] Task: Initialize Node.js Express server with TypeScript.
+- [x] Task: Initialize Node.js Express server with TypeScript. d054853
 - [ ] Task: Initialize React application with TypeScript and Tailwind CSS.
 - [ ] Task: Set up SQLite database and ORM (Prisma/Drizzle).
 - [ ] Task: Create a basic "Hello World" connection between Frontend and Backend.
