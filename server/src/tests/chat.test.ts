@@ -1,35 +1,53 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { describe, it, expect, beforeAll, afterAll, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import { app } from '../app.js';
 import prisma from '../db.js';
 
+// Mock the gemini service
+vi.mock('../services/gemini.js', () => ({
+  generateResponse: vi.fn(),
+}));
+
+import { generateResponse } from '../services/gemini.js';
+
 describe('POST /api/chat', () => {
-  beforeAll(async () => {
-    await prisma.$connect();
+  beforeEach(async () => {
+    // Reset mocks and database before each test to ensure isolation
+    vi.mocked(generateResponse).mockReset();
+    await prisma.session.deleteMany();
   });
 
   afterAll(async () => {
-    await prisma.session.deleteMany();
     await prisma.$disconnect();
   });
 
-  it('should create a new session and return the first state response', async () => {
+  it('should create a new session and call Gemini with the correct prompt for state 1', async () => {
+    const mockResponse = "Computer says no... Mocked.";
+    vi.mocked(generateResponse).mockResolvedValue(mockResponse);
+    
+    const userMessage = 'Hello, I need assistance.';
     const response = await request(app)
       .post('/api/chat')
-      .send({ message: 'Hello' });
+      .send({ message: userMessage });
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('sessionId');
-    expect(response.body.response).toContain('Computer says no');
+    expect(generateResponse).toHaveBeenCalledWith(expect.stringContaining(userMessage));
+    expect(response.body.response).toBe(mockResponse);
   });
 
-  it('should advance the state on subsequent requests', async () => {
-    // First request to establish a session
+  it('should use an existing session and advance the state', async () => {
+    const mockResponse1 = "State 1 response";
+    const mockResponse2 = "State 2 response";
+    vi.mocked(generateResponse).mockResolvedValueOnce(mockResponse1).mockResolvedValueOnce(mockResponse2);
+
+    // First request
     const firstResponse = await request(app)
       .post('/api/chat')
       .send({ message: 'Hello again' });
 
     const sessionId = firstResponse.body.sessionId;
+    expect(firstResponse.body.response).toBe(mockResponse1);
 
     // Second request
     const secondResponse = await request(app)
@@ -38,6 +56,7 @@ describe('POST /api/chat', () => {
 
     expect(secondResponse.status).toBe(200);
     expect(secondResponse.body.sessionId).toBe(sessionId);
-    expect(secondResponse.body.response).toContain("Rigggggghtt, I'm checking... it says no");
+    expect(secondResponse.body.response).toBe(mockResponse2);
+    expect(generateResponse).toHaveBeenCalledTimes(2);
   });
 });
