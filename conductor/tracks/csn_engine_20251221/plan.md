@@ -4,7 +4,7 @@
 - [x] Task: Initialize Node.js Express server with TypeScript. d054853
 - [x] Task: Initialize React application with TypeScript and Tailwind CSS. 6ef1b69
 - [x] Task: Set up SQLite database and ORM (Prisma/Drizzle). ec88762
-- [ ] Task: Create a basic "Hello World" connection between Frontend and Backend.
+- [x] Task: Create a basic "Hello World" connection between Frontend and Backend. 26df27b
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
 ## Phase 2: Core Refusal Engine (Backend)
