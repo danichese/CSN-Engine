@@ -3,7 +3,7 @@
 ## Phase 1: Environment Setup & Skeleton (Greenfield)
 - [x] Task: Initialize Node.js Express server with TypeScript. d054853
 - [x] Task: Initialize React application with TypeScript and Tailwind CSS. 6ef1b69
-- [ ] Task: Set up SQLite database and ORM (Prisma/Drizzle).
+- [x] Task: Set up SQLite database and ORM (Prisma/Drizzle). ec88762
 - [ ] Task: Create a basic "Hello World" connection between Frontend and Backend.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1' (Protocol in workflow.md)
 
