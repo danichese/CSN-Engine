@@ -1,5 +1,14 @@
 import type { Request, Response } from 'express';
 import { generateResponse } from '../services/gemini.js';
+import { randomUUID } from 'crypto';
+
+// Session state storage (In-Memory)
+interface Session {
+  id: string;
+  state: number;
+}
+
+const sessions = new Map<string, Session>();
 
 // Specific prompts for each state, to be sent to the LLM
 const statePrompts = [
@@ -17,12 +26,29 @@ export const handleChat = async (req: Request, res: Response) => {
   }
 
   try {
-    // TODO: Implement In-Memory State in the next task
-    const currentState = 1;
-    const responseText = await generateResponse(`${statePrompts[currentState - 1]} The user's message is: "${message}"`);
+    let session: Session | undefined;
+
+    if (sessionId) {
+      session = sessions.get(sessionId);
+    }
+
+    if (!session) {
+      const newSessionId = randomUUID();
+      session = { id: newSessionId, state: 1 };
+      sessions.set(newSessionId, session);
+    }
+
+    const currentState = session.state;
+    // Combine the state-specific instruction with the user's actual message
+    const promptForLLM = `${statePrompts[currentState - 1]} The user's message is: "${message}"`;
+    
+    const responseText = await generateResponse(promptForLLM);
+
+    // Advance state, looping back to 1 after 4
+    session.state = currentState >= 4 ? 1 : currentState + 1;
 
     res.json({
-      sessionId: sessionId || "temp-id",
+      sessionId: session.id,
       response: responseText,
     });
   } catch (error) {

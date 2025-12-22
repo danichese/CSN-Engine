@@ -30,5 +30,56 @@ describe('POST /api/chat', () => {
     expect(response.body.response).toBe(mockResponse);
   });
 
-  // Note: State transition tests are temporarily disabled until In-Memory state is implemented in the next task.
+  it('should use an existing session and advance the state', async () => {
+    const mockResponse1 = "State 1 response";
+    const mockResponse2 = "State 2 response";
+    vi.mocked(generateResponse).mockResolvedValueOnce(mockResponse1).mockResolvedValueOnce(mockResponse2);
+
+    // First request
+    const firstResponse = await request(app)
+      .post('/api/chat')
+      .send({ message: 'Hello again' });
+
+    const sessionId = firstResponse.body.sessionId;
+    expect(firstResponse.body.response).toBe(mockResponse1);
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("user has initiated contact"));
+
+    // Second request
+    const secondResponse = await request(app)
+      .post('/api/chat')
+      .send({ sessionId, message: 'Are you sure?' });
+
+    expect(secondResponse.status).toBe(200);
+    expect(secondResponse.body.sessionId).toBe(sessionId);
+    expect(secondResponse.body.response).toBe(mockResponse2);
+    expect(generateResponse).toHaveBeenCalledTimes(2);
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("user is persisting"));
+  });
+
+  it('should cycle through all 4 states and loop back to state 1', async () => {
+    vi.mocked(generateResponse).mockResolvedValue("Mocked response");
+
+    // Request 1: Starts at state 1, moves to state 2
+    const res1 = await request(app).post('/api/chat').send({ message: 'Hello' });
+    const sessionId = res1.body.sessionId;
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("initiated contact"));
+    
+    // Request 2: Starts at state 2, moves to state 3
+    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("persisting"));
+    
+    // Request 3: Starts at state 3, moves to state 4
+    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("passive-aggressive cough"));
+    
+    // Request 4: Starts at state 4, moves to state 1
+    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("false hope"));
+
+    // Request 5: Starts at state 1 again
+    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("initiated contact"));
+
+    expect(generateResponse).toHaveBeenCalledTimes(5);
+  });
 });
