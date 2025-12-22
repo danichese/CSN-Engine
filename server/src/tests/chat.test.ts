@@ -103,4 +103,27 @@ describe('POST /api/chat', () => {
 
     expect(generateResponse).toHaveBeenCalledTimes(5);
   });
+
+  it('should maintain independent states for different sessions', async () => {
+    vi.mocked(generateResponse).mockResolvedValue("Mocked response");
+
+    // Session A request 1 (State 1 -> 2)
+    const resA1 = await request(app).post('/api/chat').send({ message: 'Hello A' });
+    const sessionA = resA1.body.sessionId;
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("initiated contact"));
+
+    // Session B request 1 (State 1 -> 2)
+    const resB1 = await request(app).post('/api/chat').send({ message: 'Hello B' });
+    const sessionB = resB1.body.sessionId;
+    expect(sessionA).not.toBe(sessionB);
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("initiated contact"));
+
+    // Session A request 2 (State 2 -> 3)
+    await request(app).post('/api/chat').send({ sessionId: sessionA, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("persisting"));
+
+    // Session B request 2 (State 2 -> 3)
+    await request(app).post('/api/chat').send({ sessionId: sessionB, message: '...' });
+    expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("persisting"));
+  });
 });
