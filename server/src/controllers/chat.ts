@@ -39,6 +39,8 @@ export const handleChat = async (req: Request, res: Response) => {
       return res.json({
         sessionId: session.id,
         response: "What do YOU want",
+        state: session.state,
+        screenShake: false
       });
     }
 
@@ -49,11 +51,14 @@ export const handleChat = async (req: Request, res: Response) => {
     const responseText = await generateResponse(promptForLLM);
 
     // Advance state, looping back to 1 after 4
-    session.state = currentState >= 4 ? 1 : currentState + 1;
+    const nextState = currentState >= 4 ? 1 : currentState + 1;
+    session.state = nextState;
 
     res.json({
       sessionId: session.id,
       response: responseText,
+      state: currentState,
+      screenShake: currentState === 3
     });
   } catch (error) {
     console.error("Error in chat handler:", error);

@@ -26,6 +26,7 @@ describe('POST /api/chat', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('sessionId');
+    expect(response.body).toHaveProperty('state');
     expect(generateResponse).toHaveBeenCalledWith(expect.stringContaining(userMessage));
     expect(response.body.response).toBe(mockResponse);
   });
@@ -37,6 +38,8 @@ describe('POST /api/chat', () => {
 
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('sessionId');
+    expect(response.body).toHaveProperty('state');
+    expect(response.body.state).toBe(1);
     expect(response.body.response).toBe("What do YOU want");
     // Ensure Gemini was NOT called for this initial greeting
     expect(generateResponse).not.toHaveBeenCalled();
@@ -77,15 +80,21 @@ describe('POST /api/chat', () => {
     expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("initiated contact"));
     
     // Request 2: Starts at state 2, moves to state 3
-    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    const res2 = await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(res2.body.state).toBe(2);
+    expect(res2.body.screenShake).toBe(false);
     expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("persisting"));
     
     // Request 3: Starts at state 3, moves to state 4
-    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    const res3 = await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(res3.body.state).toBe(3);
+    expect(res3.body.screenShake).toBe(true);
     expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("passive-aggressive cough"));
     
     // Request 4: Starts at state 4, moves to state 1
-    await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    const res4 = await request(app).post('/api/chat').send({ sessionId, message: '...' });
+    expect(res4.body.state).toBe(4);
+    expect(res4.body.screenShake).toBe(false);
     expect(generateResponse).toHaveBeenLastCalledWith(expect.stringContaining("false hope"));
 
     // Request 5: Starts at state 1 again
