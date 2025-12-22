@@ -30,6 +30,18 @@ describe('POST /api/chat', () => {
     expect(response.body.response).toBe(mockResponse);
   });
 
+  it('should return "What do YOU want" on first contact (empty prompt)', async () => {
+    const response = await request(app)
+      .post('/api/chat')
+      .send({}); // No message
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('sessionId');
+    expect(response.body.response).toBe("What do YOU want");
+    // Ensure Gemini was NOT called for this initial greeting
+    expect(generateResponse).not.toHaveBeenCalled();
+  });
+
   it('should use an existing session and advance the state', async () => {
     const mockResponse1 = "State 1 response";
     const mockResponse2 = "State 2 response";

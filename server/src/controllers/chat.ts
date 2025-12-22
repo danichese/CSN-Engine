@@ -21,10 +21,6 @@ const statePrompts = [
 export const handleChat = async (req: Request, res: Response) => {
   const { sessionId, message } = req.body;
 
-  if (!message) {
-    return res.status(400).json({ error: 'Message is required.' });
-  }
-
   try {
     let session: Session | undefined;
 
@@ -36,6 +32,14 @@ export const handleChat = async (req: Request, res: Response) => {
       const newSessionId = randomUUID();
       session = { id: newSessionId, state: 1 };
       sessions.set(newSessionId, session);
+    }
+
+    // Special handling for initial contact (no message provided)
+    if (!message) {
+      return res.json({
+        sessionId: session.id,
+        response: "What do YOU want",
+      });
     }
 
     const currentState = session.state;
