@@ -1,5 +1,4 @@
 import type { Request, Response } from 'express';
-import prisma from '../db.js';
 import { generateResponse } from '../services/gemini.js';
 
 // Specific prompts for each state, to be sent to the LLM
@@ -18,32 +17,12 @@ export const handleChat = async (req: Request, res: Response) => {
   }
 
   try {
-    let session;
-
-    if (sessionId) {
-      session = await prisma.session.findUnique({ where: { id: sessionId } });
-    }
-
-    if (!session) {
-      session = await prisma.session.create({ data: {} });
-    }
-
-    const currentState = session.state;
-    // Combine the state-specific instruction with the user's actual message
-    const promptForLLM = `${statePrompts[currentState - 1]} The user's message is: "${message}"`;
-    
-    const responseText = await generateResponse(promptForLLM);
-
-    // Advance state, looping back to 1 after 4
-    const nextState = currentState >= 4 ? 1 : currentState + 1;
-
-    const updatedSession = await prisma.session.update({
-      where: { id: session.id },
-      data: { state: nextState },
-    });
+    // TODO: Implement In-Memory State in the next task
+    const currentState = 1;
+    const responseText = await generateResponse(`${statePrompts[currentState - 1]} The user's message is: "${message}"`);
 
     res.json({
-      sessionId: updatedSession.id,
+      sessionId: sessionId || "temp-id",
       response: responseText,
     });
   } catch (error) {
