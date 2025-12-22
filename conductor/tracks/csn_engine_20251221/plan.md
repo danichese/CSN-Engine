@@ -18,7 +18,7 @@
 - [x] Task: Remove Prisma/SQLite dependencies and files (`prisma/`, `db.ts`, etc.). 0165642
 - [x] Task: Refactor `server/src/controllers/chat.ts` to use In-Memory Map for session state. 8503515
 - [x] Task: Implement "First Contact" Greeting logic (allow empty prompt or init endpoint). c9ef5f9
-- [ ] Task: Update Chat API to return `state` or `screenShake` flag for UI triggers.
+- [x] Task: Update Chat API to return `state` or `screenShake` flag for UI triggers. 26fd2a7
 - [ ] Task: Improve Error Handling in Gemini service (rate limits/timeouts).
 - [ ] Task: Update/Add tests for In-Memory State Machine (ensure Logic still holds).
 - [ ] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md)
