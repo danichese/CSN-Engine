@@ -46,10 +46,19 @@ describe('Gemini Service', () => {
     ]));
   });
 
-  it('should return a fallback message when Gemini API fails', async () => {
+  it('should return a specific fallback for rate limit errors', async () => {
+    const rateLimitError = new Error("Too Many Requests");
+    (rateLimitError as any).status = 429;
+    mockGenerateContent.mockRejectedValue(rateLimitError);
+
+    const result = await generateResponse("Fail me.");
+    expect(result).toContain("The computer is... busy");
+  });
+
+  it('should return a fallback message for general failures', async () => {
     mockGenerateContent.mockRejectedValue(new Error("API Error"));
 
     const result = await generateResponse("Fail me.");
-    expect(result).toContain("Please wait indefinitely.");
+    expect(result).toContain("wait indefinitely");
   });
 });
