@@ -20,7 +20,7 @@
 - [x] Task: Implement "First Contact" Greeting logic (allow empty prompt or init endpoint). c9ef5f9
 - [x] Task: Update Chat API to return `state` or `screenShake` flag for UI triggers. 26fd2a7
 - [x] Task: Improve Error Handling in Gemini service (rate limits/timeouts). abd6391
-- [ ] Task: Update/Add tests for In-Memory State Machine (ensure Logic still holds).
+- [x] Task: Update/Add tests for In-Memory State Machine (ensure Logic still holds). 3dfa8c0
 - [ ] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md)
 
 ## Phase 3: Retro UI & Interaction (Frontend)
