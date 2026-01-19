@@ -1,42 +1,178 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+:root {
+  font-family: 'MS Sans Serif', 'Segoe UI', sans-serif;
+  color: #1b1b1b;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+  margin: 0;
+  background: #0b4a7c;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+}
+
+.window {
+  width: min(760px, 100%);
+  background: #c0c0c0;
+  border: 3px solid #f8f8f8;
+  box-shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff,
+    6px 6px 0 rgba(0, 0, 0, 0.2);
+}
+
+.window--shake {
+  animation: screen-shake 0.5s ease-in-out;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(90deg, #082a74, #1e62b0);
+  color: #ffffff;
+  padding: 0.35rem 0.75rem;
+  border-bottom: 2px solid #1b1b1b;
+  font-size: 0.95rem;
+}
+
+.title-bar__icon {
+  margin-right: 0.5rem;
+}
+
+.title-bar__text {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  flex: 1;
+}
+
+.title-bar__controls {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.title-bar__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.2rem;
+  background: #c0c0c0;
+  border: 1px solid #1b1b1b;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+  font-size: 0.75rem;
+  color: #1b1b1b;
+}
+
+.window__body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.chat-window {
+  background: #ffffff;
+  border: 2px solid #1b1b1b;
+  box-shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+  padding: 1rem;
+  min-height: 280px;
+  max-height: 360px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #1b1b1b;
+  box-shadow: inset -1px -1px 0 #808080, inset 1px 1px 0 #ffffff;
+}
+
+.message--bot {
+  background: #fef7dd;
+}
+
+.message--user {
+  align-self: flex-end;
+  background: #e3f0ff;
+}
+
+.message__label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.message__text {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.composer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.composer__label {
+  font-weight: 600;
+}
+
+.composer__input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.45rem 0.6rem;
+  border: 2px solid #1b1b1b;
+  box-shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+  font-family: inherit;
+}
+
+.composer__input:disabled {
+  background: #dcdcdc;
+}
+
+.composer__button {
+  padding: 0.45rem 1.2rem;
+  border: 2px solid #1b1b1b;
+  box-shadow: inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+  background: #c0c0c0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.composer__button:disabled {
+  cursor: wait;
+  color: #555555;
+}
+
+@keyframes screen-shake {
+  0% {
+    transform: translate(0, 0);
   }
-  to {
-    transform: rotate(360deg);
+  20% {
+    transform: translate(-4px, 2px);
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  40% {
+    transform: translate(4px, -2px);
   }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+  60% {
+    transform: translate(-3px, -1px);
+  }
+  80% {
+    transform: translate(3px, 1px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
