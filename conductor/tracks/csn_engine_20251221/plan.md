@@ -15,10 +15,10 @@
 - [~] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
 ## Phase 3: Retro UI & Interaction (Frontend)
-- [ ] Task: Build the Retro Windows 95/98 layout using Tailwind CSS.
-- [ ] Task: Implement the Chat Window component with message history.
-- [ ] Task: Implement the "Screen Shake" visual feedback for the Cough state.
-- [ ] Task: Connect the UI to the Backend refusal engine.
+- [x] Task: Build the Retro Windows 95/98 layout using Tailwind CSS. bf18240
+- [x] Task: Implement the Chat Window component with message history. bf18240
+- [x] Task: Implement the "Screen Shake" visual feedback for the Cough state. bf18240
+- [x] Task: Connect the UI to the Backend refusal engine. bf18240
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4: Guardrails & Polish
