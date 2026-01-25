@@ -20,18 +20,18 @@ export class RefusalEngine {
   private model: any = null;
 
   constructor(apiKey: string | null) {
-    if (apiKey) {
+    if (apiKey && apiKey !== 'demo') {
       this.genAI = new GoogleGenerativeAI(apiKey);
       this.model = this.genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash",
+        model: "gemini-1.5-flash", // Re-verifying this string
         systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
       });
     }
   }
 
   async generateResponse(message: string, currentState: number): Promise<ChatResponse> {
-    // Handle Demo Mode
-    if (this.genAI === null) {
+    // Handle Demo Mode or explicit 'demo' key
+    if (this.genAI === null || !this.model) {
       const demoResponses: Record<number, string> = {
         1: "Computer says no. Janet from accounting left her tuna sandwich in the fridge again.",
         2: "Hold on... *taps keys loudly* ...No. Computer still says no.",

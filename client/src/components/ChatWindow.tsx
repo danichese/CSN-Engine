@@ -48,11 +48,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
       setState(nextState);
       setStoredRefusalState(nextState);
     } catch (error: any) {
-      console.error("Chat Error:", error);
+      console.error("Detailed Chat Error:", error);
+      // Attempt to extract as much info as possible from the Google SDK error
       const errorMsg = error?.message || "Unknown error";
+      const status = error?.status || "No status";
       setMessages(prev => [...prev, { 
         sender: 'clerk', 
-        text: `Computer says no. Error: ${errorMsg}. (Check console or API key)` 
+        text: `Computer says no. [Error: ${errorMsg}] [Status: ${status}]. Please check if Gemini API is enabled in your Google Cloud Project.` 
       }]);
     } finally {
       setIsLoading(false);
