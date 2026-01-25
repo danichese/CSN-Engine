@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Window from './components/Window';
 import ApiKeyModal from './components/ApiKeyModal';
+import ChatWindow from './components/ChatWindow';
 import { getStoredApiKey, setStoredApiKey } from './services/storage';
 
 function App() {
@@ -17,24 +18,14 @@ function App() {
       {!apiKey && <ApiKeyModal onSave={handleSaveApiKey} />}
       
       <Window title="CSN_Engine_v1.0.exe" width="max-w-xl">
-        <div className={`space-y-4 transition-transform duration-100 ${isCoughing ? 'translate-x-1 translate-y-1' : ''}`}>
-          <div className="win-inset h-80 overflow-y-auto p-2 text-sm">
-            <div className="text-blue-800 font-bold mb-2">*** SYSTEM READY ***</div>
-            <div className="bg-gray-100 p-2 border border-gray-300 mb-2">
-              <span className="font-bold">Clerk:</span> What do YOU want
+        <div className={`transition-transform duration-100 ${isCoughing ? 'translate-x-1 translate-y-1 rotate-1' : ''}`}>
+          {apiKey ? (
+            <ChatWindow apiKey={apiKey} onCough={setIsCoughing} />
+          ) : (
+            <div className="h-80 flex items-center justify-center text-sm italic">
+              Awaiting credentials...
             </div>
-          </div>
-          
-          <div className="flex gap-2">
-            <input 
-              type="text" 
-              className="win-inset flex-1 px-2 py-1 outline-none text-sm"
-              placeholder="Enter your request..."
-            />
-            <button className="win-outset bg-win-gray px-4 py-1 text-sm font-bold active:translate-x-[1px] active:translate-y-[1px]">
-              Send
-            </button>
-          </div>
+          )}
         </div>
       </Window>
 
