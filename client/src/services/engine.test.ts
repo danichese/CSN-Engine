@@ -44,6 +44,22 @@ describe('RefusalEngine', () => {
     expect(result.state).toBe(3);
   });
 
+  it('should override helpful responses with guardrail', async () => {
+    // We need to re-mock or adjust the mock for this specific test
+    // For simplicity, let's assume the mock is already capable or we'll just test the logic if we can
+    // Actually, let's just add a test that specifically targets the post-processing logic
+    // by ensuring the mock returns "Yes, I can help"
+    
+    vi.mocked(engine['model'].generateContent).mockResolvedValueOnce({
+      response: {
+        text: () => "Yes, I can help you with that.",
+      },
+    } as any);
+
+    const result = await engine.generateResponse('Help me', 1);
+    expect(result.response).toBe("Computer says no. I'm busy.");
+  });
+
   it('should calculate next state correctly', () => {
     expect(engine.getNextState(1)).toBe(2);
     expect(engine.getNextState(4)).toBe(1);
