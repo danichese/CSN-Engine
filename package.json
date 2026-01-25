@@ -1,0 +1,11 @@
+{
+  "name": "csn-engine-root",
+  "private": true,
+  "scripts": {
+    "client:dev": "npm run dev --prefix client",
+    "client:build": "npm run build --prefix client",
+    "client:test": "npm run test --prefix client",
+    "server:dev": "npm run dev --prefix server",
+    "server:test": "npm run test --prefix server"
+  }
+}

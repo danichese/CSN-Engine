@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { RefusalEngine, ChatResponse } from '../services/engine';
+import { RefusalEngine } from '../services/engine';
+import type { ChatResponse } from '../services/engine';
 import { getStoredRefusalState, setStoredRefusalState } from '../services/storage';
 
 interface Message {
