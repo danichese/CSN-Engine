@@ -14,20 +14,22 @@
 - [x] Task: Write unit tests for state transitions. 4cb26a7
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 2.5: Backend Refinements & Simplification
+## Phase 2.5: Backend Refinements & Migration
 - [x] Task: Remove Prisma/SQLite dependencies and files (`prisma/`, `db.ts`, etc.). 0165642
 - [x] Task: Refactor `server/src/controllers/chat.ts` to use In-Memory Map for session state. 8503515
-- [x] Task: Implement "First Contact" Greeting logic (allow empty prompt or init endpoint). c9ef5f9
+- [x] Task: Implement "First Contact" Greeting logic. c9ef5f9
 - [x] Task: Update Chat API to return `state` or `screenShake` flag for UI triggers. 26fd2a7
-- [x] Task: Improve Error Handling in Gemini service (rate limits/timeouts). abd6391
-- [x] Task: Update/Add tests for In-Memory State Machine (ensure Logic still holds). 3dfa8c0
-- [ ] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md)
+- [x] Task: Improve Error Handling in Gemini service. abd6391
+- [x] Task: Update/Add tests for In-Memory State Machine. 3dfa8c0
+- [x] Task: Port State Machine and Gemini Logic to Frontend. 7120358
+- [x] Task: Implement Client-Side API Key Management (UI for entry & localStorage storage). 6105054
+- [x] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md) 6105054
 
 ## Phase 3: Retro UI & Interaction (Frontend)
 - [ ] Task: Build the Retro Windows 95/98 layout using Tailwind CSS.
 - [ ] Task: Implement the Chat Window component with message history.
-- [ ] Task: Implement Session Persistence (localStorage) to support "fake reset" requirement.
-- [ ] Task: Connect the UI to the Backend refusal engine (handling `screenShake` flag).
+- [ ] Task: Implement Session Persistence (localStorage) for the refusal state.
+- [ ] Task: Connect UI to the Frontend-based refusal engine.
 - [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
 
 ## Phase 4: Guardrails & Polish
@@ -35,3 +37,9 @@
 - [ ] Task: Optimize token usage by pruning history and prompt tuning.
 - [ ] Task: Add final touches (sounds, pixelated icons, "What do YOU want" greeting).
 - [ ] Task: Conductor - User Manual Verification 'Phase 4' (Protocol in workflow.md)
+
+## Phase 5: Deployment
+- [ ] Task: Configure GitHub Actions for GitHub Pages deployment.
+- [ ] Task: Set up Vite base path for GitHub Pages subfolder (if applicable).
+- [ ] Task: Verify live deployment and API key functionality.
+- [ ] Task: Conductor - User Manual Verification 'Phase 5' (Protocol in workflow.md)
