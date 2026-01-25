@@ -25,7 +25,7 @@
 - [x] Task: Implement Client-Side API Key Management (UI for entry & localStorage storage). 6105054
 - [x] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md) 6105054
 
-## Phase 3: Retro UI & Interaction (Frontend)
+## Phase 3: Retro UI & Interaction (Frontend) [checkpoint: ec4d6e0]
 - [x] Task: Build the Retro Windows 95/98 layout using Tailwind CSS. 94fa893
 - [x] Task: Implement the Chat Window component with message history. 5098654
 - [x] Task: Implement Session Persistence (localStorage) for the refusal state. 5098654
