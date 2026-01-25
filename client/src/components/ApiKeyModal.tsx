@@ -30,10 +30,17 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ onSave }) => {
             className="w-full bg-white border-t-2 border-l-2 border-[#808080] border-r-2 border-b-2 border-white px-2 py-1 outline-none"
             autoFocus
           />
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => onSave('demo')}
+              className="bg-[#c0c0c0] border-t-2 border-l-2 border-white border-r-2 border-b-2 border-black px-4 py-1 active:translate-x-[1px] active:translate-y-[1px] text-sm"
+            >
+              Try Demo
+            </button>
             <button
               type="submit"
-              className="bg-[#c0c0c0] border-t-2 border-l-2 border-white border-r-2 border-b-2 border-black px-6 py-1 active:border-t-2 active:border-l-2 active:border-[#808080] active:border-r-2 active:border-white shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+              className="bg-[#c0c0c0] border-t-2 border-l-2 border-white border-r-2 border-b-2 border-black px-6 py-1 active:translate-x-[1px] active:translate-y-[1px] font-bold"
             >
               OK
             </button>

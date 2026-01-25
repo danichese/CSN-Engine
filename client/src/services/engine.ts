@@ -30,34 +30,27 @@ export class RefusalEngine {
   }
 
   async generateResponse(message: string, currentState: number): Promise<ChatResponse> {
+    // Handle Demo Mode
+    if (this.genAI === null) {
+      const demoResponses: Record<number, string> = {
+        1: "Computer says no. Janet from accounting left her tuna sandwich in the fridge again.",
+        2: "Hold on... *taps keys loudly* ...No. Computer still says no.",
+        3: "*COUGH*",
+        4: "I'll need to see your pink slip, your brown slip, and a signed letter from your grandmother. Until then, no."
+      };
+
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            response: demoResponses[currentState] || "No.",
+            state: currentState,
+            screenShake: currentState === 3
+          });
+        }, 800);
+      });
+    }
+
     if (!this.model) {
-      throw new Error("API Key not configured");
-    }
-
-    // Special handling for initial contact (no message provided)
-    if (!message) {
-      return {
-        response: "What do YOU want",
-        state: 1,
-        screenShake: false
-      };
-    }
-
-    // STATE 3 OVERRIDE: Hardcoded cough
-    if (currentState === 3) {
-      return {
-        response: "*COUGH*",
-        state: 3,
-        screenShake: true
-      };
-    }
-
-    const promptForLLM = `${statePrompts[currentState - 1]}${GUARDRAIL_PROMPT} The user's message is: "${message}"`;
-    
-    try {
-      const result = await this.model.generateContent(promptForLLM);
-      const response = await result.response;
-      let responseText = response.text().trim();
 
       // Guardrail post-processing: if for some reason the LLM is being helpful
       const helpfulWords = ['yes', 'sure', 'help', 'certainly', 'i can', 'ok', 'alright'];
