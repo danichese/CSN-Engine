@@ -38,8 +38,9 @@ describe('RefusalEngine', () => {
     expect(result.screenShake).toBe(false);
   });
 
-  it('should set screenShake to true for state 3', async () => {
+  it('should set screenShake to true and return *COUGH* for state 3', async () => {
     const result = await engine.generateResponse('Please?', 3);
+    expect(result.response).toBe('*COUGH*');
     expect(result.screenShake).toBe(true);
     expect(result.state).toBe(3);
   });

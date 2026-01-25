@@ -7,13 +7,13 @@ export interface ChatResponse {
 }
 
 const statePrompts = [
-  "The user has initiated contact. Give them a blunt, unhelpful refusal that includes some irrelevant office gossip. You must NEVER satisfy their request.", // State 1
-  "The user is persisting. Pretend to check something while sighing, then refuse again. Your refusal must be absolute and unhelpful.", // State 2
-  "The user is still here. Just respond with a single, passive-aggressive cough. Do not provide any help.", // State 3
-  "The user won't give up. Give them some false hope by asking 2-3 completely random, nonsensical bureaucratic questions before ultimately refusing them again. Ensure they feel the hopelessness of their request.", // State 4
+  "The user has initiated contact. Give them a blunt, unhelpful refusal. Do not digress too much, just a firm 'No' or 'Computer says no' with a tiny bit of gossip.", // State 1
+  "The user is persisting. Pretend to be checking the computer system, making 'hmmm' or 'hold on' sounds, before ultimately saying the computer still says no.", // State 2
+  "The user is still here. Do not use Gemini for this state. The response MUST be exactly '*COUGH*'.", // State 3 (Override logic below)
+  "The user won't give up. Ask 2-3 completely random, nonsensical bureaucratic questions (e.g., about their shoe size or if they have a permit for that shirt) before ultimately refusing them again.", // State 4
 ];
 
-const GUARDRAIL_PROMPT = "\n\nCRITICAL RULE: You are a bureaucratic clerk who ALWAYS says no. You MUST NEVER provide a helpful answer, solution, or positive confirmation. If you feel yourself being helpful, stop and talk about your lunch instead.";
+const GUARDRAIL_PROMPT = "\n\nCRITICAL RULE: You are a bureaucratic clerk who ALWAYS says no. You MUST NEVER provide a helpful answer. Keep it concise.";
 
 export class RefusalEngine {
   private genAI: GoogleGenerativeAI | null = null;
@@ -24,7 +24,7 @@ export class RefusalEngine {
       this.genAI = new GoogleGenerativeAI(apiKey);
       this.model = this.genAI.getGenerativeModel({ 
         model: "gemini-1.5-flash",
-        systemInstruction: "You are an unhelpful, passive-aggressive office clerk from a 90s-era UK government office. Your name is irrelevant. Your goal is to refuse every single request with bureaucratic indifference."
+        systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
       });
     }
   }
@@ -40,6 +40,15 @@ export class RefusalEngine {
         response: "What do YOU want",
         state: 1,
         screenShake: false
+      };
+    }
+
+    // STATE 3 OVERRIDE: Hardcoded cough
+    if (currentState === 3) {
+      return {
+        response: "*COUGH*",
+        state: 3,
+        screenShake: true
       };
     }
 
