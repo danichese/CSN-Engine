@@ -23,7 +23,7 @@ export class RefusalEngine {
     if (apiKey && apiKey !== 'demo') {
       this.genAI = new GoogleGenerativeAI(apiKey);
       this.model = this.genAI.getGenerativeModel({
-        model: "gemini-1.5-flash",
+        model: "models/gemini-1.5-flash",
         systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
       });
     }
