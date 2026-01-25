@@ -1,12 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { RefusalEngine } from '../services/engine';
 import type { ChatResponse } from '../services/engine';
-import { getStoredRefusalState, setStoredRefusalState } from '../services/storage';
-
-interface Message {
-  sender: 'user' | 'clerk';
-  text: string;
-}
+import { getStoredRefusalState, setStoredRefusalState, getStoredChatHistory, setStoredChatHistory } from '../services/storage';
+import type { Message } from '../services/storage';
 
 interface ChatWindowProps {
   apiKey: string;
@@ -14,9 +10,9 @@ interface ChatWindowProps {
 }
 
 const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
-  const [messages, setMessages] = useState<Message[]>([
-    { sender: 'clerk', text: 'What do YOU want' }
-  ]);
+  const [messages, setMessages] = useState<Message[]>(() => 
+    getStoredChatHistory() || [{ sender: 'clerk', text: 'What do YOU want' }]
+  );
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [engine] = useState(() => new RefusalEngine(apiKey));
@@ -24,6 +20,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setStoredChatHistory(messages);
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
@@ -50,9 +47,13 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
       const nextState = engine.getNextState(state);
       setState(nextState);
       setStoredRefusalState(nextState);
-    } catch (error) {
-      console.error(error);
-      setMessages(prev => [...prev, { sender: 'clerk', text: 'Computer says no. Error in bureaucratic sub-routine.' }]);
+    } catch (error: any) {
+      console.error("Chat Error:", error);
+      const errorMsg = error?.message || "Unknown error";
+      setMessages(prev => [...prev, { 
+        sender: 'clerk', 
+        text: `Computer says no. Error: ${errorMsg}. (Check console or API key)` 
+      }]);
     } finally {
       setIsLoading(false);
     }
