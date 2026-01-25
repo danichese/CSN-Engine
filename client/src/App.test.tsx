@@ -1,24 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
 import App from './App';
-
-global.fetch = vi.fn();
-
-function createFetchResponse(data: any) {
-  return { json: () => new Promise((resolve) => resolve(data)) };
-}
+import '@testing-library/jest-dom';
 
 describe('App', () => {
-  it('renders message from backend', async () => {
-    // @ts-ignore
-    fetch.mockResolvedValue(createFetchResponse({ message: 'Computer Says No Engine API' }));
-
+  it('renders the API Key setup modal by default', () => {
     render(<App />);
+    
+    // Check for the "Setup" title in the modal
+    expect(screen.getByText(/Setup/i)).toBeInTheDocument();
+    expect(screen.getByText(/Please enter your Google Gemini API Key/i)).toBeInTheDocument();
+  });
 
-    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
-
-    await waitFor(() => {
-      expect(screen.getByText(/Computer Says No Engine API/i)).toBeInTheDocument();
-    });
+  it('renders the main window title', () => {
+    render(<App />);
+    expect(screen.getByText(/CSN_Engine_v1.0.exe/i)).toBeInTheDocument();
   });
 });

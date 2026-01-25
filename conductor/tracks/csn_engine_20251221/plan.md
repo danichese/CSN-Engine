@@ -26,11 +26,11 @@
 - [x] Task: Conductor - User Manual Verification 'Phase 2.5' (Protocol in workflow.md) 6105054
 
 ## Phase 3: Retro UI & Interaction (Frontend)
-- [ ] Task: Build the Retro Windows 95/98 layout using Tailwind CSS.
-- [ ] Task: Implement the Chat Window component with message history.
-- [ ] Task: Implement Session Persistence (localStorage) for the refusal state.
-- [ ] Task: Connect UI to the Frontend-based refusal engine.
-- [ ] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md)
+- [x] Task: Build the Retro Windows 95/98 layout using Tailwind CSS. 94fa893
+- [x] Task: Implement the Chat Window component with message history. 5098654
+- [x] Task: Implement Session Persistence (localStorage) for the refusal state. 5098654
+- [x] Task: Connect UI to the Frontend-based refusal engine. 5098654
+- [x] Task: Conductor - User Manual Verification 'Phase 3' (Protocol in workflow.md) 5098654
 
 ## Phase 4: Guardrails & Polish
 - [ ] Task: Implement persona-check guardrails to ensure 100% unhelpfulness.
