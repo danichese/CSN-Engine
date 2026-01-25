@@ -22,8 +22,8 @@ export class RefusalEngine {
   constructor(apiKey: string | null) {
     if (apiKey && apiKey !== 'demo') {
       this.genAI = new GoogleGenerativeAI(apiKey);
-      this.model = this.genAI.getGenerativeModel({ 
-        model: "gemini-1.5-flash", // Re-verifying this string
+      this.model = this.genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
         systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
       });
     }
@@ -50,7 +50,30 @@ export class RefusalEngine {
       });
     }
 
-    if (!this.model) {
+    // Special handling for initial contact (no message provided)
+    if (!message) {
+      return {
+        response: "What do YOU want",
+        state: 1,
+        screenShake: false
+      };
+    }
+
+    // STATE 3 OVERRIDE: Hardcoded cough
+    if (currentState === 3) {
+      return {
+        response: "*COUGH*",
+        state: 3,
+        screenShake: true
+      };
+    }
+
+    const promptForLLM = `${statePrompts[currentState - 1]}${GUARDRAIL_PROMPT} The user's message is: "${message}"`;
+    
+    try {
+      const result = await this.model.generateContent(promptForLLM);
+      const response = await result.response;
+      let responseText = response.text().trim();
 
       // Guardrail post-processing: if for some reason the LLM is being helpful
       const helpfulWords = ['yes', 'sure', 'help', 'certainly', 'i can', 'ok', 'alright'];
