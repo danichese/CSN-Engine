@@ -14,7 +14,7 @@
 - [x] Task: Write unit tests for state transitions. 4cb26a7
 - [x] Task: Conductor - User Manual Verification 'Phase 2' (Protocol in workflow.md)
 
-## Phase 2.5: Backend Refinements & Migration
+## Phase 2.5: Backend Refinements & Migration [checkpoint: ac71825]
 - [x] Task: Remove Prisma/SQLite dependencies and files (`prisma/`, `db.ts`, etc.). 0165642
 - [x] Task: Refactor `server/src/controllers/chat.ts` to use In-Memory Map for session state. 8503515
 - [x] Task: Implement "First Contact" Greeting logic. c9ef5f9
