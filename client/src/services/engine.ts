@@ -17,21 +17,18 @@ const GUARDRAIL_PROMPT = "\n\nCRITICAL RULE: You are a bureaucratic clerk who AL
 
 export class RefusalEngine {
   private genAI: GoogleGenerativeAI | null = null;
-  private model: any = null;
+  private apiKey: string | null = null;
 
   constructor(apiKey: string | null) {
+    this.apiKey = apiKey;
     if (apiKey && apiKey !== 'demo') {
       this.genAI = new GoogleGenerativeAI(apiKey);
-      this.model = this.genAI.getGenerativeModel({
-        model: "models/gemini-1.5-flash",
-        systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
-      });
     }
   }
 
   async generateResponse(message: string, currentState: number): Promise<ChatResponse> {
     // Handle Demo Mode or explicit 'demo' key
-    if (this.genAI === null || !this.model) {
+    if (this.apiKey === 'demo' || !this.genAI) {
       const demoResponses: Record<number, string> = {
         1: "Computer says no. Janet from accounting left her tuna sandwich in the fridge again.",
         2: "Hold on... *taps keys loudly* ...No. Computer still says no.",
@@ -70,28 +67,43 @@ export class RefusalEngine {
 
     const promptForLLM = `${statePrompts[currentState - 1]}${GUARDRAIL_PROMPT} The user's message is: "${message}"`;
     
-    try {
-      const result = await this.model.generateContent(promptForLLM);
-      const response = await result.response;
-      let responseText = response.text().trim();
+    // Attempt with primary model, fallback if 404
+    const models = ["gemini-1.5-flash", "gemini-1.5-flash-8b"];
+    let lastError: any = null;
 
-      // Guardrail post-processing: if for some reason the LLM is being helpful
-      const helpfulWords = ['yes', 'sure', 'help', 'certainly', 'i can', 'ok', 'alright'];
-      const isHelpful = helpfulWords.some(word => responseText.toLowerCase().startsWith(word));
-      
-      if (isHelpful) {
-        responseText = "Computer says no. I'm busy.";
+    for (const modelName of models) {
+      try {
+        const model = this.genAI.getGenerativeModel({
+          model: modelName,
+          systemInstruction: "You are an unhelpful, passive-aggressive office clerk. Your goal is to refuse every single request."
+        });
+
+        const result = await model.generateContent(promptForLLM);
+        const response = await result.response;
+        let responseText = response.text().trim();
+
+        // Guardrail post-processing
+        const helpfulWords = ['yes', 'sure', 'help', 'certainly', 'i can', 'ok', 'alright'];
+        const isHelpful = helpfulWords.some(word => responseText.toLowerCase().startsWith(word));
+        
+        if (isHelpful) {
+          responseText = "Computer says no. I'm busy.";
+        }
+
+        return {
+          response: responseText,
+          state: currentState,
+          screenShake: currentState === 3
+        };
+      } catch (error: any) {
+        lastError = error;
+        console.warn(`Model ${modelName} failed, trying fallback...`, error);
+        if (error?.status !== 404) break; // Only fallback on 404
       }
-
-      return {
-        response: responseText,
-        state: currentState,
-        screenShake: currentState === 3
-      };
-    } catch (error) {
-      console.error("Error generating Gemini response:", error);
-      throw error;
     }
+
+    console.error("All Gemini models failed:", lastError);
+    throw lastError;
   }
 
   getNextState(currentState: number): number {
