@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Window from './components/Window';
-import ApiKeyModal from './components/ApiKeyModal';
+// import ApiKeyModal from './components/ApiKeyModal';
 import ChatWindow from './components/ChatWindow';
-import { getStoredApiKey, setStoredApiKey } from './services/storage';
+// import { getStoredApiKey, setStoredApiKey } from './services/storage';
 
 function App() {
   const [apiKey] = useState<string | null>('demo');
@@ -33,7 +33,7 @@ function App() {
 
       <Window title="CSN_Engine_v1.0.exe" width="max-w-xl">
         <div className={`transition-transform duration-100 ${isCoughing ? 'translate-x-1 translate-y-1 rotate-1' : ''}`}>
-          <ChatWindow apiKey={apiKey} onCough={setIsCoughing} />
+          <ChatWindow apiKey={apiKey!} onCough={setIsCoughing} />
         </div>
       </Window>
 
