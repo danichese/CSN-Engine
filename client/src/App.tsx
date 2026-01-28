@@ -18,15 +18,15 @@ function App() {
       {/* Desktop Icons */}
       <div className="fixed top-4 left-4 flex flex-col gap-6">
         <div className="flex flex-col items-center w-16 group cursor-pointer">
-          <div className="w-8 h-8 bg-win-gray win-outset mb-1 flex items-center justify-center text-[10px] font-bold">My PC</div>
+          <img src="./Assets/my computer.jpg" alt="My Computer" className="w-8 h-8 mb-1" />
           <span className="text-white text-[10px] bg-black px-1">My Computer</span>
         </div>
         <div className="flex flex-col items-center w-16 group cursor-pointer">
-          <div className="w-8 h-8 bg-win-gray win-outset mb-1 flex items-center justify-center text-[10px] font-bold">Bin</div>
+          <img src="./Assets/recycle bin.jpg" alt="Recycle Bin" className="w-8 h-8 mb-1" />
           <span className="text-white text-[10px]">Recycle Bin</span>
         </div>
         <div className="flex flex-col items-center w-16 group cursor-pointer">
-          <div className="w-8 h-8 bg-win-gray win-outset mb-1 flex items-center justify-center text-[10px] font-bold">IE</div>
+          <img src="./Assets/netscape.png" alt="Netscape" className="w-8 h-8 mb-1" />
           <span className="text-white text-[10px]">Netscape</span>
         </div>
       </div>

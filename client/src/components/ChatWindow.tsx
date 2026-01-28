@@ -79,11 +79,20 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
       >
         <div className="text-blue-800 font-bold mb-2">*** SYSTEM READY ***</div>
         {messages.map((msg, i) => (
-          <div key={i} className={`${msg.sender === 'user' ? 'text-right' : ''}`}>
-            <span className="font-bold">{msg.sender === 'clerk' ? 'Clerk: ' : 'You: '}</span>
-            <span className={msg.sender === 'clerk' ? 'bg-gray-100 p-1 border border-gray-300 inline-block' : ''}>
-              {msg.text}
-            </span>
+          <div key={i} className={`${msg.sender === 'user' ? 'text-right' : 'flex gap-2'}`}>
+            {msg.sender === 'clerk' && (
+              <img 
+                src="./Assets/Carol beer chat window.jpg" 
+                alt="Clerk Avatar" 
+                className="w-8 h-8 border border-gray-400" 
+              />
+            )}
+            <div className="flex-1">
+              <span className="font-bold">{msg.sender === 'clerk' ? 'Clerk: ' : 'You: '}</span>
+              <span className={msg.sender === 'clerk' ? 'bg-gray-100 p-1 border border-gray-300 inline-block' : ''}>
+                {msg.text}
+              </span>
+            </div>
           </div>
         ))}
         {isLoading && <div className="italic text-gray-500">{getStatusMessage()}</div>}
