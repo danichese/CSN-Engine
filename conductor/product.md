@@ -26,5 +26,6 @@ A humorous, persona-driven chat application based on the iconic "Little Britain"
 
 ## Technical Goals
 - Demonstrate successful integration of LLM guardrails for consistent persona maintenance through a stateful interaction loop.
-- Implement a full-stack architecture (Frontend, Server, Database) for a complete portfolio piece.
+- **Hybrid Chat Architecture:** Showcase a blend of deterministic state-machine responses for core persona enforcement with LLM capabilities for complex/out-of-scope handling.
+- Implement a streamlined "Lite Server" architecture (Frontend + Node.js Backend) for rapid MVP deployment.
 - Showcase cost-effective AI interaction through strategic response design.

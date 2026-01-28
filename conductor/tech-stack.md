@@ -3,23 +3,19 @@
 ## Frontend
 - **Framework:** React (TypeScript)
 - **Styling:** Tailwind CSS (Custom Retro/Win95 Theme)
-- **State Management:** React Context or Redux (to track the unhelpful persistence sequence)
+- **State Management:** React Context (for UI and refusal state) & LocalStorage (for session persistence and API key storage)
 - **Icons:** Pixelated/Retro icon set
+- **AI Integration:** Google Gemini API (using `@google/generative-ai` SDK directly in the client)
 
 ## Backend
-- **Runtime:** Node.js
-- **Framework:** Express.js (TypeScript)
-- **AI Integration:** Google Gemini API (using `google-generative-ai` SDK)
+- **None:** The application is a static frontend. Users provide their own Gemini API key for security in a client-side environment.
 
-## Database
-- **Engine:** SQLite
-- **ORM:** Prisma or Drizzle (for easy schema management)
-
-## Development & Deployment
-- **Language:** TypeScript (End-to-end type safety)
-- **Version Control:** Git (to be initialized later)
-- **Package Manager:** npm or yarn
+## Deployment
+- **Platform:** GitHub Pages
+- **Automation:** GitHub Actions (Build and Deploy workflow)
 
 ## Key Technical Decisions
-- **Persona Guardrails:** Hardcoded state machine in the backend to manage the refusal sequence (Initial -> Check -> Cough -> False Hope), with Gemini providing the creative "digression" content.
-- **Token Optimization:** Responses are prompted to be extremely concise. History is pruned to maintain only the immediate state needed for the sequence.
+- **Demo-First Interaction:** To ensure a seamless parody experience, the application is locked to "Demo Mode" by default, using pre-defined unhelpful responses and a mandatory 5-second bureaucratic delay.
+- **Client-Side AI (Inactive):** While the Gemini SDK remains integrated, active API key management has been removed to simplify the user experience.
+- **State Machine:** The refusal sequence (Initial -> Check -> Cough -> False Hope) is managed within the React state.
+- **Retro Bureaucracy:** UI/UX remains the priority, mimicking a Windows 95 environment.
