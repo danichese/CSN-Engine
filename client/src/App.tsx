@@ -5,13 +5,8 @@ import ChatWindow from './components/ChatWindow';
 import { getStoredApiKey, setStoredApiKey } from './services/storage';
 
 function App() {
-  const [apiKey, setApiKey] = useState<string | null>(getStoredApiKey());
+  const [apiKey] = useState<string | null>('demo');
   const [isCoughing, setIsCoughing] = useState(false);
-
-  const handleSaveApiKey = (key: string) => {
-    setStoredApiKey(key);
-    setApiKey(key);
-  };
 
   const handleReset = () => {
     localStorage.clear();
@@ -20,17 +15,10 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      {!apiKey && <ApiKeyModal onSave={handleSaveApiKey} />}
       
       <Window title="CSN_Engine_v1.0.exe" width="max-w-xl">
         <div className={`transition-transform duration-100 ${isCoughing ? 'translate-x-1 translate-y-1 rotate-1' : ''}`}>
-          {apiKey ? (
-            <ChatWindow apiKey={apiKey} onCough={setIsCoughing} />
-          ) : (
-            <div className="h-80 flex items-center justify-center text-sm italic">
-              Awaiting credentials...
-            </div>
-          )}
+          <ChatWindow apiKey={apiKey} onCough={setIsCoughing} />
         </div>
       </Window>
 

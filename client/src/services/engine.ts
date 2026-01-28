@@ -36,7 +36,7 @@ export class RefusalEngine {
         1: "Computer says no. Janet from accounting left her tuna sandwich in the fridge again.",
         2: "Hold on... *taps keys loudly* ...No. Computer still says no.",
         3: "*COUGH*",
-        4: "I'll need to see your pink slip, your brown slip, and a signed letter from your grandmother. Until then, no."
+        4: "I'll need to see your form A12, your form B42, and a signed letter from your grandmother. Until then, no."
       };
 
       await delayPromise;
