@@ -1,5 +1,8 @@
 # Plan: Fix Prisma Client Import SyntaxError & Verify API
 
+## Status: Deprecated / Merged
+*Note: The "Database" requirement has been removed to simplify the architecture for MVP. The work done here to verify the API endpoint remains relevant, but the Prisma/DB specifics are no longer needed.*
+
 ## Phase 1: Fix Server Startup & Module Resolution [x]
 
 ### Task: Diagnose and Fix ESM/Prisma Integration [x]
@@ -28,4 +31,4 @@
 - [x] Sub-task: Run tests and ensure they pass.
 - [x] Sub-task: Commit changes and attach task summary.
 
-### Task: Conductor - User Manual Verification 'Phase 2: API & Database Connectivity Verification' (Protocol in workflow.md) [ ]
+### Task: Conductor - User Manual Verification 'Phase 2: API & Database Connectivity Verification' (Protocol in workflow.md) [x]

@@ -1,0 +1,282 @@
+1. Server running successfully
+2.
+
+$initResponse = Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body '{}' $initResponse | Select-Object response, sessionId, state, screenShake
+
+Response: 
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> response         sessionId                            state screenShake
+>> --------         ---------                            ----- -----------
+>> What do YOU want 4075bf70-3c94-4217-9c01-a858cb4257a1     1       False
+
+3.
+
+$sid = $initResponse.sessionId
+
+Response: worked
+
+4. State 1-2
+
+$res1 = Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)
+
+$res1 | Select-Object response, state
+
+Response: response                                                                 state
+--------                                                                 -----
+I'm sorry, the system is... processing. Please wait indefinitely. *sigh*     1
+
+5.  State 2-3
+
+Now in state 3.
+
+Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
+
+This came up an error message: 
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
+At line:1 char:115                3-03f0-47c1-b443-b12d71df8ba3
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++ ... ed a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Conve ...        
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingEqualsInHashLiteral
+
+
+$res3 = Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sessionId=$sid; message="I'm not leaving!"} | ConvertTo-Json)
+
+
+
+logs: 
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> curl -X POST http://localhInvoke-WebRequest : Cannot bind parameter 'Headers'. Cannot convert the 
+"System.Collections.IDictionary".
+At line:1 char:48
++ ... //localhost:3000/api/chat -H "Content-Type: application/json" -d "{}"
++                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBind  
+   ingException
+    + FullyQualifiedErrorId : CannotConvertArgumentNoMessage,Microsoft.PowerShell.Com  
+   mands.InvokeWebRequestCommand
+ 
+tMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body '{}' $initResponse | Select-Object response, sessionId, state, screenShake   
+Invoke-RestMethod : A positional parameter cannot be found that accepts argument       
+'$null'.
+At line:1 char:17
++ ... tResponse = Invoke-RestMethod -Uri "http://localhost:3001/api/chat" - ...        
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidArgument: (:) [Invoke-RestMethod], ParameterBind  
+   ingException
+    + FullyQualifiedErrorId : PositionalParameterNotFound,Microsoft.PowerShell.Comman  
+   ds.InvokeRestMethodCommand
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $initResponse = Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body '{}'
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $initResponse | Select-Object response, sessionId, state, screenShake
+
+response         sessionId                            state screenShake
+--------         ---------                            ----- -----------
+What do YOU want 4075bf70-3c94-4217-9c01-a858cb4257a1     1       False
+
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> response         sessionId                            state screenShake
+>> --------         ---------                            ----- -----------
+>> What do YOU want 4075bf70-3c94-4217-9c01-a858cb4257a1     1       False
+At line:2 char:72                                                         2d71df8ba3
++ ... ------         ---------                            ----- -----------
++                                                                          ~
+Missing expression after unary operator '-'.
+At line:3 char:1
++ What do YOU want 4075bf70-3c94-4217-9c01-a858cb4257a1     1       Fal ...
++ ~~~~
+Unexpected token 'What' in expression or statement.
+At line:2 char:3
++ --------         ---------                            ----- --------- ...
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:2 char:5
++ --------         ---------                            ----- --------- ...
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:2 char:7
++ --------         ---------                            ----- --------- ...
+The '--' operator works only on variables or on properties.
+At line:2 char:18
++                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+At line:2 char:20
++ ... ------         ---------                            ----- -----------
++                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:2 char:22
++ ... ------         ---------                            ----- -----------
++                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:2 char:24
++                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+At line:2 char:26
++ ... ------         ---------                            ----- -----------
++                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The '--' operator works only on variables or on properties.
+Not all parse errors were reported.  Correct the reported errors and try again.        
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingExpressionAfterOperator
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $sid = $initResponse.sessionId
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 = Invoke-RestMethod 
+-Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 | Select-Object response, state
+
+response                                                                 state
+--------                                                                 -----
+I'm sorry, the system is... processing. Please wait indefinitely. *sigh*     1
+
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="PAt line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++ ... ed a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Conve ...        
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...        
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingEqualsInHashLiteral
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
+At line:1 char:115                3-03f0-47c1-b443-b12d71df8ba3
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...        
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 = Invoke-RestMethod 
+-Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 | Select-Object response, state
+
+response                                                                 state
+--------                                                                 -----
+I'm sorry, the system is... processing. Please wait indefinitely. *sigh*     2
+
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 = Invoke-RestMethod 
+-Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> $res1 | Select-Object response, state
+
+response                                                                 state
+--------                                                                 -----
+I'm sorry, the system is... processing. Please wait indefinitely. *sigh*     3
+
+
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="PAt line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++ ... ed a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Conve ...        
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...        
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingEqualsInHashLiteral
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="PAt line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++ ... ed a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Conve ...        
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...        
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingEqualsInHashLiteral
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
+At line:1 char:115                3-03f0-47c1-b443-b12d71df8ba3
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+Missing '=' operator after key in hash literal.
+At line:1 char:115
++ ... t" -Method Post -ContentType "application/json" -Body (@{sess (@{sess ...        
++                                                                  ~
+The hash literal was incomplete.
+At line:1 char:208
++ ... ed a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Conve ...        
++                                                                 ~
+Unexpected token '}' in expression or statement.
+At line:1 char:210
++ ...  a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | Convert ...
++                                                                 ~
+An empty pipe element is not allowed.
+At line:1 char:226
++ ... nvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null
++                                                                 ~
+Unexpected token ')' in expression or statement.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException  
+    + FullyQualifiedErrorId : MissingEqualsInHashLiteral
+ 
+PS C:\Users\Dan\Documents\Code\CSN Engine\CSN-Engine\server> Invoke-RestMethod -Uri "http://localhost:3001/api/chat" -Method Post -ContentType "application/json" -Body (@{sess (@{sessionId=$sid; message="I need a permit"} | ConvertTo-Json)ionId=$sid; message="Please?"} | ConvertTo-Json) > $null

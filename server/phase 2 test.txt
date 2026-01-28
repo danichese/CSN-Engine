@@ -1,0 +1,18 @@
+
+
+
+1. Invoke-RestMethod -Uri http://localhost:3001/api/chat -Method Post -ContentType "application/json" -Body '{"message": "I want to open a new account"}'
+
+result: sessionId                            response
+---------                            --------
+c500859c-4688-41c8-89f4-1d3972a53703 I'm sorry, the system is... processing. Please wait i... 
+
+2. Invoke-RestMethod -Uri http://localhost:3001/api/chat -Method Post -ContentType "application/json" -Body '{"sessionId": "c500859c-4688-41c8-89f4-1d3972a53703", "message": "Why not"}'
+
+result: sessionId                            response
+---------                            --------
+c500859c-4688-41c8-89f4-1d3972a53703 I'm sorry, the system is... processing. Please wait i... 
+
+3. Invoke-RestMethod -Uri http://localhost:3001/api/chat -Method Post -ContentType "application/json" -Body '{"sessionId": "c500859c-4688-41c8-89f4-1d3972a53703", "message": "Hello?"
+
+Just left with >> and no response
