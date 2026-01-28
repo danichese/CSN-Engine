@@ -5,6 +5,8 @@
 ## Overview
 **Computer Says No Bot** is a humorous, persona-driven chat application inspired by the iconic "Little Britain" character, Carol Beer. It is designed to be an intentionally unhelpful, bureaucratic, and dismissive assistant that prioritizes its own eccentricities and "system rules" over actually helping the user.
 
+[**🚀 View Live Demo**](https://danichese.github.io/CSN-Engine/)
+
 While the project is a parody, it serves as a technical demonstration of **Hybrid Chat Architecture**—a concept where fixed, state-machine-driven responses are combined with LLM capabilities. This approach allows for strict persona enforcement and token efficiency, with future expansion plans to use LLMs only for handling complex out-of-scope requests while maintaining the "hard no" core logic.
 
 ## The Character: Carol Beer
