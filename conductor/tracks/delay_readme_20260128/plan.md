@@ -11,7 +11,7 @@ The goal of this phase is to ensure every bot response is preceded by a mandator
     - [ ] Wrap the response logic in an asynchronous delay (e.g., `await new Promise(resolve => setTimeout(resolve, 5000))`).
 - [x] Task: Ensure UI status indicators are visible during the delay. 6dc8cfc
     - [ ] Verify that states like "Checking..." or "*Audible Sigh*" are rendered immediately when the user sends a message, remaining visible for the duration of the delay.
-- [ ] Task: Write/Update unit tests for the engine delay.
+- [x] Task: Write/Update unit tests for the engine delay. cd31ac3
     - [ ] Add a test in `client/src/services/engine.test.ts` to verify that responses take at least 5000ms to resolve.
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Artificial Response Delay' (Protocol in workflow.md)
 
