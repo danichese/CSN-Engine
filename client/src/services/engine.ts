@@ -27,6 +27,9 @@ export class RefusalEngine {
   }
 
   async generateResponse(message: string, currentState: number): Promise<ChatResponse> {
+    // Artificial delay to allow UI to show status indicators (e.g., audible sigh)
+    const delayPromise = new Promise(resolve => setTimeout(resolve, 5000));
+
     // Handle Demo Mode or explicit 'demo' key
     if (this.apiKey === 'demo' || !this.genAI) {
       const demoResponses: Record<number, string> = {
@@ -36,19 +39,17 @@ export class RefusalEngine {
         4: "I'll need to see your pink slip, your brown slip, and a signed letter from your grandmother. Until then, no."
       };
 
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            response: demoResponses[currentState] || "No.",
-            state: currentState,
-            screenShake: currentState === 3
-          });
-        }, 800);
-      });
+      await delayPromise;
+      return {
+        response: demoResponses[currentState] || "No.",
+        state: currentState,
+        screenShake: currentState === 3
+      };
     }
 
     // Special handling for initial contact (no message provided)
     if (!message) {
+      await delayPromise;
       return {
         response: "What do YOU want",
         state: 1,
@@ -58,6 +59,7 @@ export class RefusalEngine {
 
     // STATE 3 OVERRIDE: Hardcoded cough
     if (currentState === 3) {
+      await delayPromise;
       return {
         response: "*COUGH*",
         state: 3,
@@ -90,6 +92,7 @@ export class RefusalEngine {
           responseText = "Computer says no. I'm busy.";
         }
 
+        await delayPromise;
         return {
           response: responseText,
           state: currentState,

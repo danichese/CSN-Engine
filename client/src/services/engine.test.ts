@@ -29,37 +29,47 @@ describe('RefusalEngine', () => {
     expect(result.response).toBe('What do YOU want');
     expect(result.state).toBe(1);
     expect(result.screenShake).toBe(false);
-  });
+  }, 10000);
 
   it('should return Gemini response for state 1', async () => {
     const result = await engine.generateResponse('Hello', 1);
     expect(result.response).toContain('Computer says no');
     expect(result.state).toBe(1);
     expect(result.screenShake).toBe(false);
-  });
+  }, 10000);
 
   it('should set screenShake to true and return *COUGH* for state 3', async () => {
     const result = await engine.generateResponse('Please?', 3);
     expect(result.response).toBe('*COUGH*');
     expect(result.screenShake).toBe(true);
     expect(result.state).toBe(3);
-  });
+  }, 10000);
 
   it('should override helpful responses with guardrail', async () => {
-    // We need to re-mock or adjust the mock for this specific test
-    // For simplicity, let's assume the mock is already capable or we'll just test the logic if we can
-    // Actually, let's just add a test that specifically targets the post-processing logic
-    // by ensuring the mock returns "Yes, I can help"
+    // Access private member via type cast to any to fix the test
+    const mockModel = {
+      generateContent: vi.fn().mockResolvedValue({
+        response: {
+          text: () => "Yes, I can help you with that.",
+        },
+      }),
+    };
     
-    vi.mocked(engine['model'].generateContent).mockResolvedValueOnce({
-      response: {
-        text: () => "Yes, I can help you with that.",
-      },
-    } as any);
+    vi.spyOn(engine as any, 'apiKey', 'get').mockReturnValue('fake-key');
+    (engine as any).genAI = {
+      getGenerativeModel: vi.fn().mockReturnValue(mockModel)
+    };
 
     const result = await engine.generateResponse('Help me', 1);
     expect(result.response).toBe("Computer says no. I'm busy.");
-  });
+  }, 10000);
+
+  it('should take at least 5000ms to respond', async () => {
+    const startTime = Date.now();
+    await engine.generateResponse('Hello', 1);
+    const duration = Date.now() - startTime;
+    expect(duration).toBeGreaterThanOrEqual(4900);
+  }, 10000);
 
   it('should calculate next state correctly', () => {
     expect(engine.getNextState(1)).toBe(2);
