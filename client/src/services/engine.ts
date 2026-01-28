@@ -36,7 +36,7 @@ export class RefusalEngine {
         1: "Computer says no. Janet from accounting left her tuna sandwich in the fridge again.",
         2: "Hold on... *taps keys loudly* ...No. Computer still says no.",
         3: "*COUGH*",
-        4: "I'll need to see your form A12, your form B42, and a signed letter from your grandmother. Until then, no."
+        4: "I'll need to see your form A12 and your form B42. Until then, computer says no."
       };
 
       await delayPromise;
@@ -110,6 +110,7 @@ export class RefusalEngine {
   }
 
   getNextState(currentState: number): number {
-    return currentState >= 4 ? 1 : currentState + 1;
+    // Once we reach state 4, we stay there to loop sighs/stares indefinitely
+    return currentState >= 4 ? 4 : currentState + 1;
   }
 }
