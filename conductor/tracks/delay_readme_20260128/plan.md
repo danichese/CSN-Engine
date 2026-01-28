@@ -9,7 +9,7 @@ The goal of this phase is to ensure every bot response is preceded by a mandator
 - [x] Task: Update `client/src/services/engine.ts` (or relevant state handler) to implement a 5-second delay. cd31ac3
     - [ ] Identify the core response generation/dispatch function.
     - [ ] Wrap the response logic in an asynchronous delay (e.g., `await new Promise(resolve => setTimeout(resolve, 5000))`).
-- [ ] Task: Ensure UI status indicators are visible during the delay.
+- [x] Task: Ensure UI status indicators are visible during the delay. 6dc8cfc
     - [ ] Verify that states like "Checking..." or "*Audible Sigh*" are rendered immediately when the user sends a message, remaining visible for the duration of the delay.
 - [ ] Task: Write/Update unit tests for the engine delay.
     - [ ] Add a test in `client/src/services/engine.test.ts` to verify that responses take at least 5000ms to resolve.
