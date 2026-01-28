@@ -61,6 +61,16 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
     }
   };
 
+  const getStatusMessage = () => {
+    switch (state) {
+      case 1: return "Clerk is staring blankly...";
+      case 2: return "Clerk is checking the computer... (Rigggggghtt...)";
+      case 3: return "Clerk is preparing a big cough...";
+      case 4: return "Clerk is sighing audibly...";
+      default: return "Clerk is ignoring you...";
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div 
@@ -76,7 +86,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ apiKey, onCough }) => {
             </span>
           </div>
         ))}
-        {isLoading && <div className="italic text-gray-500">Clerk is typing... or sighing...</div>}
+        {isLoading && <div className="italic text-gray-500">{getStatusMessage()}</div>}
       </div>
       
       <div className="flex gap-2">
